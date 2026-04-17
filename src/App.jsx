@@ -86,7 +86,8 @@ function App() {
       setInterviewRole('candidate');
       setActiveInterviewId(applyId);
       // Fetch public interview data
-      fetch(`https://dronaai-5o1h.onrender.com/api/interviews/public/${applyId}`)
+      const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+      fetch(`${API_BASE}/api/interviews/public/${applyId}`)
         .then(res => res.json())
         .then(data => {
           if (data.interview) setInterviews([data.interview]);
@@ -95,7 +96,8 @@ function App() {
       setActiveMode('screening_apply');
       setActiveWorkspaceId(screeningId);
       // Fetch public workspace data
-      fetch(`https://dronaai-5o1h.onrender.com/api/workspaces/public/${screeningId}`)
+      const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+      fetch(`${API_BASE}/api/workspaces/public/${screeningId}`)
         .then(res => res.json())
         .then(data => {
           if (data.workspace) setWorkspaces([data.workspace]);

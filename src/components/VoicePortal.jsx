@@ -31,8 +31,9 @@ const VoicePortal = ({ interviews, activeInterviewId, onBack }) => {
     formData.append('interview_id', selectedInterview.id);
     formData.append('candidate_name', candidateName);
 
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
     try {
-      const res = await fetch('https://dronaai-5o1h.onrender.com/api/interviews/config', {
+      const res = await fetch(`${API_BASE}/api/interviews/config`, {
         method: 'POST',
         body: formData
       });

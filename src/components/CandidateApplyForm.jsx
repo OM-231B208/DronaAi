@@ -18,9 +18,10 @@ const CandidateApplyForm = ({ type = 'interview', interviewId, data, onBack }) =
     formDataObj.append('email', formData.email);
     formDataObj.append('resume', formData.resume);
 
+    const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
     const endpoint = type === 'screening'
-      ? `https://dronaai-5o1h.onrender.com/api/workspaces/apply/${interviewId}`
-      : `https://dronaai-5o1h.onrender.com/api/interviews/apply/${interviewId}`;
+      ? `${API_BASE}/api/workspaces/apply/${interviewId}`
+      : `${API_BASE}/api/interviews/apply/${interviewId}`;
 
     try {
       const res = await fetch(endpoint, {
