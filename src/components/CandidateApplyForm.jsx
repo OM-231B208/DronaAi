@@ -11,16 +11,16 @@ const CandidateApplyForm = ({ type = 'interview', interviewId, data, onBack }) =
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formData.resume) return alert("Please upload your resume.");
-    
+
     setIsSubmitting(true);
     const formDataObj = new FormData();
     formDataObj.append('name', formData.name);
     formDataObj.append('email', formData.email);
     formDataObj.append('resume', formData.resume);
 
-    const endpoint = type === 'screening' 
-      ? `http://127.0.0.1:5000/api/workspaces/apply/${interviewId}`
-      : `http://127.0.0.1:5000/api/interviews/apply/${interviewId}`;
+    const endpoint = type === 'screening'
+      ? `https://dronaai-5o1h.onrender.com/api/workspaces/apply/${interviewId}`
+      : `https://dronaai-5o1h.onrender.com/api/interviews/apply/${interviewId}`;
 
     try {
       const res = await fetch(endpoint, {
@@ -97,32 +97,32 @@ const CandidateApplyForm = ({ type = 'interview', interviewId, data, onBack }) =
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label>FULL NAME</label>
-              <input 
-                type="text" 
-                placeholder="Enter your name" 
-                required 
+              <input
+                type="text"
+                placeholder="Enter your name"
+                required
                 value={formData.name}
-                onChange={e => setFormData({...formData, name: e.target.value})}
+                onChange={e => setFormData({ ...formData, name: e.target.value })}
               />
             </div>
             <div className="form-group">
               <label>EMAIL ADDRESS</label>
-              <input 
-                type="email" 
-                placeholder="email@example.com" 
-                required 
+              <input
+                type="email"
+                placeholder="email@example.com"
+                required
                 value={formData.email}
-                onChange={e => setFormData({...formData, email: e.target.value})}
+                onChange={e => setFormData({ ...formData, email: e.target.value })}
               />
             </div>
             <div className="form-group">
               <label>RESUME (PDF ONLY)</label>
               <div className="file-upload-zone">
-                <input 
-                  type="file" 
-                  accept=".pdf" 
-                  required 
-                  onChange={e => setFormData({...formData, resume: e.target.files[0]})}
+                <input
+                  type="file"
+                  accept=".pdf"
+                  required
+                  onChange={e => setFormData({ ...formData, resume: e.target.files[0] })}
                   id="resume-upload"
                   className="hidden-file-input"
                 />

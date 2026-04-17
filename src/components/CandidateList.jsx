@@ -36,10 +36,10 @@ const CandidateList = ({ candidatesData, activeWorkspace, onClearAll }) => {
   const handleUpdateStatus = async (id, newStatus) => {
     try {
       await api.patch(`/api/candidates/${id}/recommendation`, { recommendation: newStatus });
-      setLocalCandidates(prev => 
+      setLocalCandidates(prev =>
         prev.map(c => c.id === id ? { ...c, recommendation: newStatus } : c)
       );
-    } catch(e) {
+    } catch (e) {
       console.error("Failed to update status:", e);
       alert("Failed to update candidate status.");
     }
@@ -63,11 +63,11 @@ const CandidateList = ({ candidatesData, activeWorkspace, onClearAll }) => {
     // Use the actual email from the database (either captured from form or extracted from resume).
     // If somehow missing, fallback to a placeholder.
     const emails = shortlisted.map(c => {
-       if (c.candidate?.email) {
-           return c.candidate.email;
-       }
-       const namePart = (c.candidate?.name || "candidate").split(' ')[0].toLowerCase();
-       return `${namePart}@example.com`;
+      if (c.candidate?.email) {
+        return c.candidate.email;
+      }
+      const namePart = (c.candidate?.name || "candidate").split(' ')[0].toLowerCase();
+      return `${namePart}@example.com`;
     });
 
     const confirmed = window.confirm(`Send invitations to ${emails.length} candidates?\n\nInterview Link: ${link}\n\nSending to: \n${emails.join('\n')}`);
@@ -75,7 +75,7 @@ const CandidateList = ({ candidatesData, activeWorkspace, onClearAll }) => {
 
     setIsInviting(true);
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/candidates/invite`, {
+      const response = await fetch(`https://dronaai-5o1h.onrender.com/api/candidates/invite`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ emails, interview_link: link })
@@ -95,18 +95,18 @@ const CandidateList = ({ candidatesData, activeWorkspace, onClearAll }) => {
     }
   };
 
-  const filteredCandidates = localCandidates.filter(c => 
+  const filteredCandidates = localCandidates.filter(c =>
     activeTab === 'ALL' ? true : c.recommendation === activeTab
   );
 
   return (
     <div className="candidates-container animate-fade-in" style={{ animationDelay: '0.3s' }}>
       <div className="candidates-header">
-        <div style={{display: 'flex', alignItems: 'center', gap: '1rem'}}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
           <h2 className="heading-2">System Ranked Matches</h2>
-          <div className="tabs-container" style={{marginLeft: '2rem'}}>
+          <div className="tabs-container" style={{ marginLeft: '2rem' }}>
             {['ALL', 'SHORTLIST', 'REVIEW', 'REJECT'].map(tab => (
-              <button 
+              <button
                 key={tab}
                 className={`tab-btn ${activeTab === tab ? 'active' : ''}`}
                 onClick={() => setActiveTab(tab)}
@@ -116,8 +116,8 @@ const CandidateList = ({ candidatesData, activeWorkspace, onClearAll }) => {
             ))}
           </div>
         </div>
-        
-        <div style={{display: 'flex', gap: '1rem'}}>
+
+        <div style={{ display: 'flex', gap: '1rem' }}>
           {activeTab === 'SHORTLIST' && (
             <button className="btn-primary" onClick={handleInvite} disabled={isInviting} style={{ padding: '0.4rem 1rem', fontSize: '0.85rem' }}>
               {isInviting ? "Sending..." : "Send Mock Interview Links"}
@@ -125,9 +125,9 @@ const CandidateList = ({ candidatesData, activeWorkspace, onClearAll }) => {
           )}
 
           {localCandidates.length > 0 && onClearAll && (
-            <button 
-              className="btn-secondary" 
-              onClick={onClearAll} 
+            <button
+              className="btn-secondary"
+              onClick={onClearAll}
               style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', borderColor: 'rgba(239, 68, 68, 0.4)', color: '#ef4444', display: 'flex', alignItems: 'center', gap: '0.4rem' }}
               title="Delete all analyzed resumes for this campaign"
             >
@@ -147,7 +147,7 @@ const CandidateList = ({ candidatesData, activeWorkspace, onClearAll }) => {
           const isExpanded = expandedIds.has(uniqueKey);
           return (
             <div className={`candidate-card ${isExpanded ? 'expanded' : ''}`} key={uniqueKey} style={{ animationDelay: `${0.1 + index * 0.05}s` }}>
-              
+
               {/* Header section with Score */}
               <div className="card-header">
                 <div className="avatar">
@@ -157,8 +157,8 @@ const CandidateList = ({ candidatesData, activeWorkspace, onClearAll }) => {
                   <h3>{result.candidate?.name || "Unknown Candidate"}</h3>
                   <p>{result.candidate?.role || "Applicant"} • {result.candidate?.experience_years || "?"} yrs exp</p>
                   <div style={{ marginTop: '0.25rem', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-                    <span style={{ 
-                      fontSize: '0.75rem', fontWeight: 'bold', 
+                    <span style={{
+                      fontSize: '0.75rem', fontWeight: 'bold',
                       color: result.recommendation === "SHORTLIST" ? 'var(--success-color)' : result.recommendation === "REVIEW" ? 'var(--warning-color)' : 'var(--text-secondary)'
                     }}>
                       {result.recommendation}
@@ -171,7 +171,7 @@ const CandidateList = ({ candidatesData, activeWorkspace, onClearAll }) => {
                   </div>
                 </div>
               </div>
-              
+
               {/* Basic AI Findings (Always Visible) */}
               <div className="card-body">
                 <div className="metrics-row">
@@ -226,9 +226,9 @@ const CandidateList = ({ candidatesData, activeWorkspace, onClearAll }) => {
                   {result.bias_check || "Objective Evaluation Applied"}
                 </div>
               </div>
-              
+
               <div className="card-actions">
-                <select 
+                <select
                   className="status-dropdown"
                   value={result.recommendation}
                   onChange={(e) => handleUpdateStatus(result.id, e.target.value)}
@@ -238,7 +238,7 @@ const CandidateList = ({ candidatesData, activeWorkspace, onClearAll }) => {
                   <option value="REJECT">Reject</option>
                 </select>
 
-                <button 
+                <button
                   className={`btn-primary view-btn ${isExpanded ? 'active' : ''}`}
                   onClick={() => toggleExpand(uniqueKey)}
                 >

@@ -86,19 +86,19 @@ function App() {
       setInterviewRole('candidate');
       setActiveInterviewId(applyId);
       // Fetch public interview data
-      fetch(`http://127.0.0.1:5000/api/interviews/public/${applyId}`)
+      fetch(`https://dronaai-5o1h.onrender.com/api/interviews/public/${applyId}`)
         .then(res => res.json())
         .then(data => {
-           if (data.interview) setInterviews([data.interview]);
+          if (data.interview) setInterviews([data.interview]);
         });
     } else if (screeningId) {
       setActiveMode('screening_apply');
       setActiveWorkspaceId(screeningId);
       // Fetch public workspace data
-      fetch(`http://127.0.0.1:5000/api/workspaces/public/${screeningId}`)
+      fetch(`https://dronaai-5o1h.onrender.com/api/workspaces/public/${screeningId}`)
         .then(res => res.json())
         .then(data => {
-           if (data.workspace) setWorkspaces([data.workspace]);
+          if (data.workspace) setWorkspaces([data.workspace]);
         });
     }
   }, [user?.id]);
@@ -189,24 +189,24 @@ function App() {
 
   return (
     <div className="app-wrapper">
-      <Navbar 
-        theme={theme} 
-        toggleTheme={toggleTheme} 
+      <Navbar
+        theme={theme}
+        toggleTheme={toggleTheme}
         activeMode={activeMode}
         setActiveMode={setActiveMode}
         user={user}
         onSignOut={handleSignOut}
       />
-      
+
       <main className="container" style={{ paddingBottom: '6rem' }}>
         {activeMode === 'screening' ? (
           <>
             <Hero />
             <TrustedBy />
-            
+
             <div className="dashboard-grid glass-panel" style={{ padding: '2.5rem', marginTop: '0' }}>
-              
-              <WorkspaceTabs 
+
+              <WorkspaceTabs
                 workspaces={workspaces}
                 activeWorkspaceId={activeWorkspaceId}
                 onSelectWorkspace={(id) => setActiveWorkspaceId(id)}
@@ -230,7 +230,7 @@ function App() {
                   </>
                 ) : isEditing ? (
                   <>
-                    <EditWorkspacePanel 
+                    <EditWorkspacePanel
                       workspace={getActiveWorkspaceMeta()}
                       onSave={(updatedWorkspace) => {
                         setWorkspaces(prev => prev.map(w => w.id === updatedWorkspace.id ? updatedWorkspace : w));
@@ -243,9 +243,9 @@ function App() {
                         setIsEditing(false);
                       }}
                     />
-                    <UploadSection 
-                      activeWorkspace={getActiveWorkspaceMeta()} 
-                      onMatchResults={handleMatchResults} 
+                    <UploadSection
+                      activeWorkspace={getActiveWorkspaceMeta()}
+                      onMatchResults={handleMatchResults}
                     />
                   </>
                 ) : (
@@ -261,7 +261,7 @@ function App() {
                       </div>
 
                       <h2 className="workspace-title">{getActiveWorkspaceMeta()?.title}</h2>
-                      
+
                       <div className="workspace-desc">
                         {getActiveWorkspaceMeta()?.description}
                       </div>
@@ -275,7 +275,7 @@ function App() {
                           <div className="link-text-content">
                             {window.location.origin}?apply_screening={activeWorkspaceId}
                           </div>
-                          <button 
+                          <button
                             className="link-professional-btn"
                             onClick={(e) => {
                               const link = `${window.location.origin}?apply_screening=${activeWorkspaceId}`;
@@ -309,17 +309,17 @@ function App() {
                         </div>
                       </div>
                     </div>
-                    <UploadSection 
-                      activeWorkspace={getActiveWorkspaceMeta()} 
-                      onMatchResults={handleMatchResults} 
+                    <UploadSection
+                      activeWorkspace={getActiveWorkspaceMeta()}
+                      onMatchResults={handleMatchResults}
                     />
                   </>
                 )}
               </div>
-              
+
               <div style={{ marginTop: '3rem' }}>
-                <CandidateList 
-                  candidatesData={candidates} 
+                <CandidateList
+                  candidatesData={candidates}
                   activeWorkspace={getActiveWorkspaceMeta()}
                   onClearAll={async () => {
                     if (!window.confirm("Are you sure you want to delete all candidates for this campaign?")) return;
@@ -335,7 +335,7 @@ function App() {
             </div>
           </>
         ) : activeMode === 'screening_apply' ? (
-          <CandidateApplyForm 
+          <CandidateApplyForm
             type="screening"
             interviewId={activeWorkspaceId}
             data={workspaces}
@@ -346,28 +346,28 @@ function App() {
           />
         ) : (
           <div className="interview-portal-wrapper animate-fade-in" style={{ paddingTop: '5.5rem' }}>
-             {interviewRole === 'recruiter' ? (
-               <InterviewDashboard 
-                 interviews={interviews} 
-                 onRefreshInterviews={fetchInterviews} 
-                 onStartTest={handleStartTest}
-               />
-             ) : interviewRole === 'public_apply' ? (
-               <CandidateApplyForm 
+            {interviewRole === 'recruiter' ? (
+              <InterviewDashboard
+                interviews={interviews}
+                onRefreshInterviews={fetchInterviews}
+                onStartTest={handleStartTest}
+              />
+            ) : interviewRole === 'public_apply' ? (
+              <CandidateApplyForm
                 interviewId={activeInterviewId}
                 interviews={interviews}
                 onBack={() => {
                   setInterviewRole('recruiter');
                   window.history.replaceState({}, '', window.location.pathname);
                 }}
-               />
-             ) : (
-               <VoicePortal 
-                 interviews={interviews} 
-                 activeInterviewId={activeInterviewId} 
-                 onBack={() => setInterviewRole('recruiter')}
-               />
-             )}
+              />
+            ) : (
+              <VoicePortal
+                interviews={interviews}
+                activeInterviewId={activeInterviewId}
+                onBack={() => setInterviewRole('recruiter')}
+              />
+            )}
           </div>
         )}
       </main>

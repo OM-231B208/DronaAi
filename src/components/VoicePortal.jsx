@@ -32,7 +32,7 @@ const VoicePortal = ({ interviews, activeInterviewId, onBack }) => {
     formData.append('candidate_name', candidateName);
 
     try {
-      const res = await fetch('http://127.0.0.1:5000/api/interviews/config', {
+      const res = await fetch('https://dronaai-5o1h.onrender.com/api/interviews/config', {
         method: 'POST',
         body: formData
       });
@@ -71,7 +71,7 @@ const VoicePortal = ({ interviews, activeInterviewId, onBack }) => {
           <div className="stage-top">
             <div className="brand-mark">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0E836D" strokeWidth="2.5">
-                <circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/>
+                <circle cx="12" cy="12" r="10" /><path d="M12 8v4l3 3" />
               </svg>
             </div>
             <h2 className="stage-title">Candidate Entrance</h2>
@@ -85,11 +85,11 @@ const VoicePortal = ({ interviews, activeInterviewId, onBack }) => {
               <h3 className="focus-title">{selectedInterview.title}</h3>
               <div className="focus-meta">
                 <span>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                   {selectedInterview.duration_minutes} Mins
                 </span>
                 <span>
-                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" /></svg>
                   AI Voice
                 </span>
               </div>
@@ -102,7 +102,7 @@ const VoicePortal = ({ interviews, activeInterviewId, onBack }) => {
             <div className="input-block">
               <label>What is your full name?</label>
               <div className="input-wrapper">
-                <svg className="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                <svg className="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
                 <input
                   type="text"
                   value={candidateName}
@@ -117,7 +117,7 @@ const VoicePortal = ({ interviews, activeInterviewId, onBack }) => {
               <div className="input-block">
                 <label>Select Interview Category</label>
                 <div className="input-wrapper">
-                  <svg className="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/></svg>
+                  <svg className="input-icon" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" /></svg>
                   <select
                     value={selectedInterview?.id || ''}
                     onChange={(e) => setSelectedInterview(interviews.find(i => i.id === parseInt(e.target.value)))}
@@ -135,7 +135,7 @@ const VoicePortal = ({ interviews, activeInterviewId, onBack }) => {
               <input type="file" id="resume-upload" accept=".pdf" onChange={(e) => setResume(e.target.files[0])} style={{ display: 'none' }} />
               <label htmlFor="resume-upload" className={`stage-dropzone ${resume ? 'has-file' : ''}`}>
                 <div className="drop-icon">
-                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+                  <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="17 8 12 3 7 8" /><line x1="12" y1="3" x2="12" y2="15" /></svg>
                 </div>
                 <div className="drop-text">
                   <strong>{resume ? resume.name : 'Click to upload resume'}</strong>
@@ -151,7 +151,7 @@ const VoicePortal = ({ interviews, activeInterviewId, onBack }) => {
                   <><div className="btn-spinner"></div>Preparing AI Agent...</>
                 ) : (
                   <>
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><polygon points="5 3 19 12 5 21 5 3" /></svg>
                     Analyze &amp; Launch Interview
                   </>
                 )}

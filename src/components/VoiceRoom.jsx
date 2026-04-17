@@ -79,7 +79,7 @@ const VoiceRoom = ({ sessionData, onFinish }) => {
 
   const startCall = async (vapiObj) => {
     console.log("DEBUG: Initiate clicked. VapiObj exists:", !!vapiObj);
-    
+
     if (!faceModel) {
       console.warn("DEBUG: Face model not ready");
       alert("AI face detection model is still loading. Please wait a few seconds and try again.");
@@ -100,7 +100,7 @@ const VoiceRoom = ({ sessionData, onFinish }) => {
       if (videoRef.current) {
         const faces = await faceModel.estimateFaces(videoRef.current, false);
         console.log("DEBUG: Scan complete. Faces detected:", faces.length);
-        
+
         if (faces.length > 1) {
           setFaceError(`Multiple faces detected (${faces.length})! Please ensure you are alone in the frame.`);
           setIsCheckingFace(false);
@@ -145,7 +145,7 @@ const VoiceRoom = ({ sessionData, onFinish }) => {
   const handleFinishSession = async (finalTranscript) => {
     setIsEvaluating(true);
     try {
-      const res = await fetch(`http://127.0.0.1:5000/api/interviews/session/${sessionData.session_id}/finish`, {
+      const res = await fetch(`https://dronaai-5o1h.onrender.com/api/interviews/session/${sessionData.session_id}/finish`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ transcript: finalTranscript })
@@ -410,10 +410,10 @@ const VoiceRoom = ({ sessionData, onFinish }) => {
                 <div className="eval-scanner-ring ring-1"></div>
                 <div className="eval-scanner-ring ring-2"></div>
                 <div className="eval-scanner-core-min">
-                   <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0E836D" strokeWidth="1.5"><path d="M12 2v20M2 12h20M12 2a10 10 0 1 0 10 10M12 2a10 10 0 1 1-10 10" /></svg>
+                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0E836D" strokeWidth="1.5"><path d="M12 2v20M2 12h20M12 2a10 10 0 1 0 10 10M12 2a10 10 0 1 1-10 10" /></svg>
                 </div>
               </div>
-              
+
               <div className="eval-progress-zen">
                 <div className="zen-bar-track">
                   <div className="zen-bar-fill"></div>
@@ -446,11 +446,11 @@ const VoiceRoom = ({ sessionData, onFinish }) => {
 
                         {/* Shadow */}
                         <ellipse cx="100" cy="190" rx="60" ry="10" fill="rgba(0,0,0,0.15)" className="robot-shadow" />
-                        
+
                         <g className="robot-float">
                           {/* Torso - Oval from below */}
                           <path d="M55 95 Q100 80 145 95 Q165 130 150 160 Q130 185 100 185 Q70 185 50 160 Q35 130 55 95 Z" fill="url(#bodyGradient)" />
-                          
+
                           {/* Body Shine/Highlight */}
                           <path d="M65 105 Q100 95 135 105" stroke="rgba(255,255,255,0.4)" strokeWidth="4" fill="none" strokeLinecap="round" />
                           <ellipse cx="100" cy="140" rx="25" ry="30" fill="rgba(255,255,255,0.05)" />
@@ -471,10 +471,10 @@ const VoiceRoom = ({ sessionData, onFinish }) => {
                           <g className="robot-head">
                             <circle cx="58" cy="75" r="11" fill="#e2e8f0" />
                             <circle cx="142" cy="75" r="11" fill="#e2e8f0" />
-                            
+
                             <rect x="50" y="48" width="100" height="65" rx="32" fill="url(#bodyGradient)" />
                             <rect x="58" y="55" width="84" height="40" rx="18" fill="url(#visorGradient)" />
-                            
+
                             <g clipPath="url(#visorClip)">
                               <g className="robot-face-elements">
                                 <g className="robot-eyes">
@@ -509,14 +509,14 @@ const VoiceRoom = ({ sessionData, onFinish }) => {
                     <div className="btn-shine"></div>
                     <div className="btn-content">
                       {isCheckingFace ? (
-                         <div className="btn-loader"></div>
+                        <div className="btn-loader"></div>
                       ) : (
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L5.32 8.35" /></svg>
                       )}
                       <span>
-                        {isCheckingFace ? 'ANALYZING BIOMETRICS...' : 
-                         isConnecting ? 'ESTABLISHING SECURE LINK...' : 
-                         'INITIATE FORENSIC INTERVIEW'}
+                        {isCheckingFace ? 'ANALYZING BIOMETRICS...' :
+                          isConnecting ? 'ESTABLISHING SECURE LINK...' :
+                            'INITIATE FORENSIC INTERVIEW'}
                       </span>
                     </div>
                   </button>

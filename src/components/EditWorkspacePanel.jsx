@@ -11,23 +11,23 @@ const EditWorkspacePanel = ({ workspace, onSave, onCancel, onDelete }) => {
       alert("Please enter a job title and description first.");
       return;
     }
-    
+
     setIsSaving(true);
     try {
-      const response = await fetch(`http://127.0.0.1:5000/api/workspaces/${workspace.id}`, {
+      const response = await fetch(`https://dronaai-5o1h.onrender.com/api/workspaces/${workspace.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
-          title: jobTitle.trim(), 
+        body: JSON.stringify({
+          title: jobTitle.trim(),
           description: jobDesc,
           min_score: parseInt(minScore, 10)
         })
       });
-      
+
       if (response.ok) {
-        onSave({ 
-          id: workspace.id, 
-          title: jobTitle.trim(), 
+        onSave({
+          id: workspace.id,
+          title: jobTitle.trim(),
           description: jobDesc,
           min_score: parseInt(minScore, 10)
         });
@@ -44,7 +44,7 @@ const EditWorkspacePanel = ({ workspace, onSave, onCancel, onDelete }) => {
   const handleDelete = async () => {
     if (window.confirm(`Are you sure you want to permanently delete the campaign "${workspace.title}" and ALL of its candidate data?`)) {
       try {
-        const response = await fetch(`http://127.0.0.1:5000/api/workspaces/${workspace.id}`, {
+        const response = await fetch(`https://dronaai-5o1h.onrender.com/api/workspaces/${workspace.id}`, {
           method: 'DELETE'
         });
         if (response.ok) {
@@ -75,11 +75,11 @@ const EditWorkspacePanel = ({ workspace, onSave, onCancel, onDelete }) => {
           </svg>
         </button>
       </div>
-      
+
       <div className="input-group">
         <label>Job Title</label>
-        <input 
-          type="text" 
+        <input
+          type="text"
           list="job-titles"
           value={jobTitle}
           onChange={(e) => setJobTitle(e.target.value)}
@@ -98,26 +98,26 @@ const EditWorkspacePanel = ({ workspace, onSave, onCancel, onDelete }) => {
 
       <div className="input-group">
         <label>Job Description & Minimum Requirements</label>
-        <textarea 
-          value={jobDesc} 
-          onChange={(e) => setJobDesc(e.target.value)} 
+        <textarea
+          value={jobDesc}
+          onChange={(e) => setJobDesc(e.target.value)}
           className="styled-input styled-textarea"
           rows="5"
         ></textarea>
       </div>
 
       <div className="input-group">
-        <label style={{display: 'flex', justifyContent: 'space-between'}}>
-          Target Minimum Score 
-          <span style={{color: 'var(--accent-primary)', fontWeight: 'bold'}}>{minScore}</span>
+        <label style={{ display: 'flex', justifyContent: 'space-between' }}>
+          Target Minimum Score
+          <span style={{ color: 'var(--accent-primary)', fontWeight: 'bold' }}>{minScore}</span>
         </label>
-        <input 
-          type="range" 
-          min="50" 
-          max="100" 
+        <input
+          type="range"
+          min="50"
+          max="100"
           step="5"
-          value={minScore} 
-          onChange={(e) => setMinScore(e.target.value)} 
+          value={minScore}
+          onChange={(e) => setMinScore(e.target.value)}
           className="styled-range"
         />
       </div>

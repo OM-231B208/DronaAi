@@ -53,7 +53,7 @@ const StatisticsChart = ({ sessions }) => {
               const x = padding + i * pointGap;
               const y = chartHeight - (s.overall_score / maxScore) * chartHeight;
               const color = s.overall_score >= 75 ? '#ade600ff' : s.overall_score >= 50 ? '#ff9900' : '#ff4d4d';
-              
+
               return (
                 <g key={s.id || i} className="chart-node-group">
                   <circle cx={x} cy={y} r="5" fill="var(--surface-color)" stroke={color} strokeWidth="2" className="data-point" />
@@ -87,7 +87,7 @@ const CandidatePerformance = ({ job, onBack }) => {
   useEffect(() => {
     const fetchSessions = async () => {
       try {
-        const res = await fetch(`http://127.0.0.1:5000/api/interviews/session/${job.id}`);
+        const res = await fetch(`https://dronaai-5o1h.onrender.com/api/interviews/session/${job.id}`);
         const data = await res.json();
         if (data.sessions) {
           const sorted = data.sessions.sort((a, b) => (b.overall_score || 0) - (a.overall_score || 0));
@@ -177,7 +177,7 @@ const InterviewDashboard = ({ interviews, onRefreshInterviews, onStartTest }) =>
   const [selectedJobId, setSelectedJobId] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
 
-  const filteredInterviews = interviews.filter(i => 
+  const filteredInterviews = interviews.filter(i =>
     i.title.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
@@ -270,9 +270,9 @@ const InterviewDashboard = ({ interviews, onRefreshInterviews, onStartTest }) =>
           <div className="top-search-bar">
             <div className="search-input-wrapper">
               <svg className="search-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-              <input 
-                type="text" 
-                placeholder="Search job profiles..." 
+              <input
+                type="text"
+                placeholder="Search job profiles..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
@@ -295,9 +295,9 @@ const InterviewDashboard = ({ interviews, onRefreshInterviews, onStartTest }) =>
           </div>
         </div>
       ) : (
-        <CandidatePerformance 
-          job={interviews.find(i => i.id === selectedJobId)} 
-          onBack={() => setSelectedJobId(null)} 
+        <CandidatePerformance
+          job={interviews.find(i => i.id === selectedJobId)}
+          onBack={() => setSelectedJobId(null)}
         />
       )}
 
