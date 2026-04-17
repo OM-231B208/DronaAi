@@ -17,6 +17,9 @@ load_dotenv(override=True)
 app = Flask(__name__)
 CORS(app)
 
+# Initialize database on startup
+database.init_db()
+
 def extract_text_from_pdf(file_bytes):
     try:
         doc = fitz.open(stream=file_bytes, filetype="pdf")

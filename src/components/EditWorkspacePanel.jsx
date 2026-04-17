@@ -14,7 +14,8 @@ const EditWorkspacePanel = ({ workspace, onSave, onCancel, onDelete }) => {
 
     setIsSaving(true);
     try {
-      const response = await fetch(`https://dronaai-5o1h.onrender.com/api/workspaces/${workspace.id}`, {
+      const API_BASE = import.meta.env.VITE_API_URL || '';
+      const response = await fetch(`${API_BASE}/api/workspaces/${workspace.id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
@@ -44,7 +45,8 @@ const EditWorkspacePanel = ({ workspace, onSave, onCancel, onDelete }) => {
   const handleDelete = async () => {
     if (window.confirm(`Are you sure you want to permanently delete the campaign "${workspace.title}" and ALL of its candidate data?`)) {
       try {
-        const response = await fetch(`https://dronaai-5o1h.onrender.com/api/workspaces/${workspace.id}`, {
+        const API_BASE = import.meta.env.VITE_API_URL || '';
+        const response = await fetch(`${API_BASE}/api/workspaces/${workspace.id}`, {
           method: 'DELETE'
         });
         if (response.ok) {

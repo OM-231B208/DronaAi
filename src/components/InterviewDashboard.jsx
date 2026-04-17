@@ -85,9 +85,10 @@ const CandidatePerformance = ({ job, onBack }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    const API_BASE = import.meta.env.VITE_API_URL || '';
     const fetchSessions = async () => {
       try {
-        const res = await fetch(`https://dronaai-5o1h.onrender.com/api/interviews/session/${job.id}`);
+        const res = await fetch(`${API_BASE}/api/interviews/session/${job.id}`);
         const data = await res.json();
         if (data.sessions) {
           const sorted = data.sessions.sort((a, b) => (b.overall_score || 0) - (a.overall_score || 0));
