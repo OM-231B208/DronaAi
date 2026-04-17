@@ -356,27 +356,72 @@ const VoiceRoom = ({ sessionData, onFinish }) => {
           .vr-done-btn { background: linear-gradient(135deg, #0E836D, #10b981); color: white; border: none; padding: 1.2rem 3.5rem; border-radius: 999px; font-weight: 900; font-size: 1.05rem; cursor: pointer; box-shadow: 0 15px 40px rgba(14,131,109,0.3); transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); letter-spacing: 0.05em; }
           .vr-done-btn:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 20px 50px rgba(14,131,109,0.5); }
 
-          .evaluation-minimalist {
-            position: absolute; inset: 0; background: #07080a; 
-            display: flex; align-items: center; justify-content: center; z-index: 1000;
+          .evaluation-premium {
+            position: absolute; inset: 0; background: radial-gradient(circle at center, #0a1f13, #07080a);
+            display: flex; align-items: center; justify-content: center; z-index: 1000; overflow: hidden;
           }
-          .eval-zen-container { width: 100%; max-width: 400px; display: flex; flex-direction: column; align-items: center; gap: 4rem; }
+          .neural-grid {
+            position: absolute; inset: 0; 
+            background-image: linear-gradient(rgba(16,185,129,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(16,185,129,0.05) 1px, transparent 1px);
+            background-size: 50px 50px;
+            mask-image: radial-gradient(circle at center, black, transparent 80%);
+            animation: gridMove 20s linear infinite;
+          }
+          @keyframes gridMove { from { background-position: 0 0; } to { background-position: 50px 50px; } }
           
-          .eval-scanner-minimal { position: relative; width: 100px; height: 100px; display: flex; align-items: center; justify-content: center; opacity: 0.6; }
-          .eval-scanner-ring { position: absolute; inset: 0; border: 1px solid rgba(14,131,109,0.15); border-radius: 50%; }
-          .eval-scanner-ring.ring-1 { border-top-color: #0E836D; border-top-width: 2px; animation: vrSpin 3s linear infinite; }
-          .eval-scanner-ring.ring-2 { inset: 20px; border-bottom-color: #0E836D; border-bottom-width: 2px; animation: vrSpin 4s linear reverse infinite; }
-          .eval-scanner-core-min { position: relative; z-index: 2; filter: drop-shadow(0 0 10px rgba(14,131,109,0.3)); animation: vrPulse 2s infinite; opacity: 0.4; }
+          .eval-premium-content { width: 100%; max-width: 500px; display: flex; flex-direction: column; align-items: center; gap: 4rem; position: relative; }
           
-          .eval-progress-zen { width: 100%; display: flex; flex-direction: column; align-items: center; }
-          .zen-bar-track { width: 100%; height: 2px; background: rgba(255,255,227,0.03); border-radius: 1px; overflow: hidden; position: relative; }
-          .zen-bar-fill { height: 100%; width: 40%; background: #0E836D; border-radius: 1px; animation: zenProgress 3s ease-in-out infinite; box-shadow: 0 0 15px rgba(14,131,109,0.6); }
-          .zen-shimmer { position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,227,0.05), transparent); animation: zenShimmer 2s infinite; }
+          /* Neural Scanner */
+          .neural-scanner-wrap { position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; }
+          .neural-orbit { position: absolute; border: 1px solid rgba(14,131,109,0.1); border-radius: 50%; }
+          .orbit-1 { inset: 0; border-top-color: #0E836D; border-top-width: 2px; animation: vrSpin 8s linear infinite; }
+          .orbit-2 { inset: 20px; border-right-color: #10b981; border-right-width: 1px; animation: vrSpin 12s linear reverse infinite; opacity: 0.5; }
+          .orbit-3 { inset: 40px; border-bottom-color: #0E836D; border-bottom-width: 1px; animation: vrSpin 5s linear infinite; opacity: 0.3; }
+          
+          .neural-hexagon {
+            width: 100px; height: 100px; background: rgba(14,131,109,0.1); 
+            clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+            display: flex; align-items: center; justify-content: center;
+            border: 1px solid rgba(16,185,129,0.3); animation: hexPulse 3s ease-in-out infinite;
+          }
+          .hex-inner { animation: vrPulse 2s infinite; opacity: 0.8; }
+          
+          .scanning-beam {
+            position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, #10b981, transparent);
+            box-shadow: 0 0 15px #10b981; animation: scanBeam 2.5s ease-in-out infinite;
+            z-index: 5;
+          }
+
+          /* Status Group */
+          .eval-status-group { text-align: center; }
+          .eval-main-title { 
+            font-size: 1.5rem; font-weight: 900; letter-spacing: 0.2em; text-transform: uppercase;
+            background: linear-gradient(to right, #fff, #10b981); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+            margin-bottom: 2rem;
+          }
+          
+          .eval-step-tracker { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; }
+          .eval-step { display: flex; align-items: center; gap: 1rem; opacity: 0.3; transition: all 0.5s; }
+          .eval-step.active { opacity: 1; filter: drop-shadow(0 0 8px rgba(16,185,129,0.4)); }
+          .eval-step.processing { opacity: 0.6; animation: stepFade 1.5s infinite alternate; }
+          
+          .step-dot { width: 6px; height: 6px; background: #0E836D; border-radius: 50%; }
+          .eval-step.active .step-dot { background: #10b981; transform: scale(1.5); }
+          .step-label { font-size: 0.75rem; font-weight: 700; color: white; letter-spacing: 0.05em; }
+
+          /* Progress Bar */
+          .eval-progress-container { width: 100%; display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+          .eval-progress-bar { width: 100%; height: 4px; background: rgba(255,255,255,0.05); border-radius: 2px; overflow: hidden; }
+          .eval-progress-fill { height: 100%; width: 40%; background: linear-gradient(90deg, #0E836D, #10b981); animation: premiumProgress 4s ease-in-out infinite; }
+          .eval-percentage { font-size: 0.6rem; font-weight: 900; color: #0E836D; letter-spacing: 0.3em; }
 
           @keyframes vrSpin { to { transform: rotate(360deg); } }
-          @keyframes vrPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.05); opacity: 0.7; } }
-          @keyframes zenProgress { 0% { width: 0%; transform: translateX(-100%); } 50% { width: 60%; transform: translateX(20%); } 100% { width: 0%; transform: translateX(100%); } }
-          @keyframes zenShimmer { to { left: 100%; } }
+          @keyframes vrPulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.1); opacity: 0.6; } }
+          @keyframes hexPulse { 0%, 100% { transform: scale(1); border-color: rgba(16,185,129,0.3); } 50% { transform: scale(1.05); border-color: rgba(16,185,129,0.6); } }
+          @keyframes scanBeam { 0% { top: 10%; opacity: 0; } 50% { opacity: 1; } 100% { top: 90%; opacity: 0; } }
+          @keyframes premiumProgress { 0% { transform: translateX(-100%); width: 20%; } 50% { width: 50%; } 100% { transform: translateX(400%); width: 20%; } }
+          @keyframes stepFade { from { opacity: 0.3; } to { opacity: 0.8; } }
           @keyframes vrBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         `}</style>
       </div>
@@ -405,21 +450,48 @@ const VoiceRoom = ({ sessionData, onFinish }) => {
 
       <div className="vr-main-layout">
         {isEvaluating ? (
-          <div className="evaluation-minimalist animate-fade-in">
-            <div className="eval-zen-container">
-              <div className="eval-scanner-minimal">
-                <div className="eval-scanner-ring ring-1"></div>
-                <div className="eval-scanner-ring ring-2"></div>
-                <div className="eval-scanner-core-min">
-                  <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#0E836D" strokeWidth="1.5"><path d="M12 2v20M2 12h20M12 2a10 10 0 1 0 10 10M12 2a10 10 0 1 1-10 10" /></svg>
+          <div className="evaluation-premium animate-fade-in">
+            <div className="neural-grid"></div>
+            <div className="eval-premium-content">
+              {/* Central Hexagon Scanner */}
+              <div className="neural-scanner-wrap">
+                <div className="neural-orbit orbit-1"></div>
+                <div className="neural-orbit orbit-2"></div>
+                <div className="neural-orbit orbit-3"></div>
+                <div className="neural-hexagon">
+                  <div className="hex-inner">
+                    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="#0E836D" strokeWidth="1.5">
+                      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+                    </svg>
+                  </div>
+                </div>
+                {/* Scanning Beam */}
+                <div className="scanning-beam"></div>
+              </div>
+
+              <div className="eval-status-group">
+                <h2 className="eval-main-title">AI Forensic Synthesis</h2>
+                <div className="eval-step-tracker">
+                  <div className="eval-step active">
+                    <div className="step-dot"></div>
+                    <span className="step-label">Processing Digital Footprint</span>
+                  </div>
+                  <div className="eval-step processing">
+                    <div className="step-dot"></div>
+                    <span className="step-label">Cross-Referencing Behavioral Patterns</span>
+                  </div>
+                  <div className="eval-step">
+                    <div className="step-dot"></div>
+                    <span className="step-label">Calculating Technical Competency Index</span>
+                  </div>
                 </div>
               </div>
 
-              <div className="eval-progress-zen">
-                <div className="zen-bar-track">
-                  <div className="zen-bar-fill"></div>
+              <div className="eval-progress-container">
+                <div className="eval-progress-bar">
+                  <div className="eval-progress-fill"></div>
                 </div>
-                <div className="zen-shimmer"></div>
+                <div className="eval-percentage">SYNCHRONIZING RESULTS...</div>
               </div>
             </div>
           </div>
