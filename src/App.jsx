@@ -86,7 +86,7 @@ function App() {
       setInterviewRole('candidate');
       setActiveInterviewId(applyId);
       // Fetch public interview data
-      const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+      const API_BASE = import.meta.env.VITE_API_URL || '';
       fetch(`${API_BASE}/api/interviews/public/${applyId}`)
         .then(res => res.json())
         .then(data => {
@@ -96,7 +96,7 @@ function App() {
       setActiveMode('screening_apply');
       setActiveWorkspaceId(screeningId);
       // Fetch public workspace data
-      const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+      const API_BASE = import.meta.env.VITE_API_URL || '';
       fetch(`${API_BASE}/api/workspaces/public/${screeningId}`)
         .then(res => res.json())
         .then(data => {

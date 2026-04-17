@@ -31,7 +31,7 @@ const VoicePortal = ({ interviews, activeInterviewId, onBack }) => {
     formData.append('interview_id', selectedInterview.id);
     formData.append('candidate_name', candidateName);
 
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+    const API_BASE = import.meta.env.VITE_API_URL || '';
     try {
       const res = await fetch(`${API_BASE}/api/interviews/config`, {
         method: 'POST',

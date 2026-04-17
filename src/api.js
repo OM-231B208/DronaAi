@@ -11,7 +11,10 @@
  *   await api.delete(`/api/workspaces/${id}`);
  */
 
-const BASE = 'http://localhost:5000';
+// When deployed on Vercel, frontend and backend share the same domain.
+// Relative URLs (BASE = '') automatically route to /api/* serverless functions.
+// For local development, we fall back to the local Flask server.
+const BASE = import.meta.env.VITE_API_URL || '';
 
 let _recruiterId = 'default';
 

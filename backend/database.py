@@ -2,7 +2,9 @@ import sqlite3
 import json
 import os
 
-DB_FILE = 'recruitment.db'
+# On Vercel, the filesystem is read-only except for /tmp.
+# We use /tmp for serverless, and a local file for development.
+DB_FILE = '/tmp/recruitment.db' if os.getenv('VERCEL') else 'recruitment.db'
 
 def get_db_connection():
     conn = sqlite3.connect(DB_FILE)

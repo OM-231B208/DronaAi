@@ -18,7 +18,7 @@ const CandidateApplyForm = ({ type = 'interview', interviewId, data, onBack }) =
     formDataObj.append('email', formData.email);
     formDataObj.append('resume', formData.resume);
 
-    const API_BASE = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5000';
+    const API_BASE = import.meta.env.VITE_API_URL || '';
     const endpoint = type === 'screening'
       ? `${API_BASE}/api/workspaces/apply/${interviewId}`
       : `${API_BASE}/api/interviews/apply/${interviewId}`;
